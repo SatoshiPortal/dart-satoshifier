@@ -50,6 +50,10 @@ class Descriptor {
     } catch (_) {}
 
     try {
+      return fromExternalDescriptor(descriptor);
+    } catch (_) {}
+
+    try {
       return parseExtendedPublicKeyWithKeyOrigin(descriptor);
     } catch (_) {}
 
@@ -57,33 +61,28 @@ class Descriptor {
   }
 
   static Descriptor fromCombinedDescriptor(String descriptor) {
-    final match = RegExp(
+    final combinedDescriptorPattern = RegExp(
       r'(\w+)\(\[([a-fA-F0-9]+)/([0-9]+h)/([0-9]+h)/([0-9]+h)\]/?([^/<]+)',
-    ).firstMatch(descriptor.trim());
+    );
 
-    if (match == null) throw 'Not a combined descriptor: $descriptor';
+    return parseDescriptorWithOrigin(
+      pattern: combinedDescriptorPattern,
+      descriptor: descriptor,
+      errorMessage: 'Not a combined descriptor: $descriptor',
+      useOperandFromRegex: false,
+    );
+  }
 
-    final _ = match.group(1)!;
-    final fingerprint = match.group(2)!;
-    final derivationPurpose = match.group(3)!;
-    final coinTypeString = match.group(4)!;
-    final coinTypeInt = int.parse(Utils.trimLastQuoteOrH(coinTypeString));
-    final accountString = match.group(5)!;
-    final pubkey = match.group(6)!;
+  static Descriptor fromExternalDescriptor(String descriptor) {
+    final externalDescriptorPattern = RegExp(
+      r"(\w+(?:\(\w+)?)\(\[([a-fA-F0-9]+)/([0-9]+[\'h])/([0-9]+[\'h])/([0-9]+[\'h])\]([^/]+)/0/\*\)(?:#[a-zA-Z0-9]+)?$",
+    );
 
-    final operand = ScriptOperand.fromDescriptor(descriptor);
-    final derivation = Derivation.fromPurpose(derivationPurpose);
-    final coinType = CoinType.fromInt(coinTypeInt);
-    final network = coinType.toNetwork();
-    final account = int.parse(Utils.trimLastQuoteOrH(accountString));
-
-    return Descriptor(
-      operand: operand,
-      fingerprint: fingerprint,
-      pubkey: pubkey,
-      network: network,
-      derivation: derivation,
-      account: account,
+    return parseDescriptorWithOrigin(
+      pattern: externalDescriptorPattern,
+      descriptor: descriptor,
+      errorMessage: 'Not an external descriptor: $descriptor',
+      useOperandFromRegex: true,
     );
   }
 
@@ -130,6 +129,43 @@ class Descriptor {
       operand: operand,
       fingerprint: fingerprint,
       pubkey: xpub,
+      network: network,
+      derivation: derivation,
+      account: account,
+    );
+  }
+
+  static Descriptor parseDescriptorWithOrigin({
+    required RegExp pattern,
+    required String descriptor,
+    required String errorMessage,
+    required bool useOperandFromRegex,
+  }) {
+    final match = pattern.firstMatch(descriptor.trim());
+
+    if (match == null) throw errorMessage;
+
+    final operandString = match.group(1)!;
+    final fingerprint = match.group(2)!;
+    final derivationPurpose = match.group(3)!;
+    final coinTypeString = match.group(4)!;
+    final accountString = match.group(5)!;
+    final pubkey = match.group(6)!;
+
+    final operand =
+        useOperandFromRegex
+            ? ScriptOperand.fromDescriptor(operandString)
+            : ScriptOperand.fromDescriptor(descriptor);
+    final derivation = Derivation.fromPurpose(derivationPurpose);
+    final coinTypeInt = int.parse(Utils.trimLastQuoteOrH(coinTypeString));
+    final coinType = CoinType.fromInt(coinTypeInt);
+    final network = coinType.toNetwork();
+    final account = int.parse(Utils.trimLastQuoteOrH(accountString));
+
+    return Descriptor(
+      operand: operand,
+      fingerprint: fingerprint,
+      pubkey: pubkey,
       network: network,
       derivation: derivation,
       account: account,

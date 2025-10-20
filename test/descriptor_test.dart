@@ -365,4 +365,15 @@ void main() {
       );
     });
   });
+
+  test('Parse an external descriptor', () {
+    final input =
+        "wpkh([efbd6844/84'/0'/0']xpub6Bx9HW5yLRBRQLdMFEJ2auFxz2oWyzmFAaD2YvPX61Qnf39b8GB7HpkKGhxx1mqkLioykGdZdHKRjygX8K63Qqv1MCM4Ej1qXnGsf4do3sp/0/*)#zqnrma8y";
+    final d = Descriptor.parse(input);
+
+    expect(d.operand, ScriptOperand.wpkh);
+    expect(d.derivation, Derivation.bip84);
+    expect(d.network, Network.bitcoinMainnet);
+    expect(d.account, 0);
+  });
 }
