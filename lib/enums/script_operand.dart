@@ -29,7 +29,7 @@ enum ScriptOperand {
   static ScriptOperand fromExtendedPubkey(ExtendedPubkey pubkey) {
     if (pubkey.derivation == Derivation.bip44) return ScriptOperand.pkh;
     if (pubkey.derivation == Derivation.bip49) return ScriptOperand.shwpkh;
-    if (pubkey.derivation == Derivation.bip84) return ScriptOperand.wsh;
+    if (pubkey.derivation == Derivation.bip84) return ScriptOperand.wpkh;
 
     throw 'Unsupported extended pubkey: $pubkey';
   }

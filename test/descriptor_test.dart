@@ -117,9 +117,9 @@ void main() {
 
         expect(descriptor.fingerprint, '');
         expect(descriptor.origin, '');
-        expect(descriptor.combined, 'wsh(${TestValue.zpubToXpub}/<0;1>/*)');
-        expect(descriptor.internal, 'wsh(${TestValue.zpubToXpub}/1/*)');
-        expect(descriptor.external, 'wsh(${TestValue.zpubToXpub}/0/*)');
+        expect(descriptor.combined, 'wpkh(${TestValue.zpubToXpub}/<0;1>/*)');
+        expect(descriptor.internal, 'wpkh(${TestValue.zpubToXpub}/1/*)');
+        expect(descriptor.external, 'wpkh(${TestValue.zpubToXpub}/0/*)');
         expect(descriptor.pubkey, extendedPubkey.xpub);
         expect(descriptor.network, extendedPubkey.network);
         expect(descriptor.derivation, extendedPubkey.derivation);
