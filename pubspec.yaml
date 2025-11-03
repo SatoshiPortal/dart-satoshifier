@@ -12,14 +12,17 @@ dependencies:
     sdk: flutter
   bdk_flutter:
     git:
-      url: https://github.com/LtbLightning/bdk-flutter
-      ref: ac8d102240a4242e319e71492d3698828177e97b
+      url: https://github.com/SatoshiPortal/bdk-flutter
+      ref: c5fb2ed396a632215959efdfb2473b69d911127f
   boltz:
     git:
       url: https://github.com/SatoshiPortal/boltz-dart
       ref: 2870662c3a7f5d1bef31252bf52724e27c392e17
-  lwk: ^0.2.0
-  bip21_uri: ^2.1.1
+  lwk:
+    git:
+      url: https://github.com/SatoshiPortal/lwk-dart
+      ref: bc2086ab9aaf642890249f2740afa5b2c7fdc901
+  bip21_uri: ^2.1.3
   freezed_annotation: ^3.0.0
   bip32_keys: ^3.1.1
   bs58: ^1.0.2
