@@ -17,11 +17,22 @@ class Bip32Utils {
 
   static String convertToXpub(List<int> pubkey) {
     final pubkeyB58 = base58.encode(Uint8List.fromList(pubkey));
-
     final format = Slip132Format.parse(pubkeyB58);
-
     final bip32Key = Bip32Keys.fromBase58(pubkeyB58, network: format.network);
-
     return bip32Key.toSlip132(Slip132Format.xpub);
+  }
+
+  static String convertToYpub(List<int> pubkey) {
+    final pubkeyB58 = base58.encode(Uint8List.fromList(pubkey));
+    final format = Slip132Format.parse(pubkeyB58);
+    final bip32Key = Bip32Keys.fromBase58(pubkeyB58, network: format.network);
+    return bip32Key.toSlip132(Slip132Format.ypub);
+  }
+
+  static String convertToZpub(List<int> pubkey) {
+    final pubkeyB58 = base58.encode(Uint8List.fromList(pubkey));
+    final format = Slip132Format.parse(pubkeyB58);
+    final bip32Key = Bip32Keys.fromBase58(pubkeyB58, network: format.network);
+    return bip32Key.toSlip132(Slip132Format.zpub);
   }
 }

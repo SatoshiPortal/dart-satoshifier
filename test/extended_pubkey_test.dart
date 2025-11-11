@@ -58,5 +58,19 @@ void main() {
         expect(extendedPubkey.fingerprint, isNot(descriptor.fingerprint));
       });
     });
+
+    group('convert to other formats', () {
+      test('converts bip49  xpub to ypub', () {
+        final extendedPubkey = ExtendedPubkey.parse(TestValue.xpubBip49);
+        final ypub = Bip32Utils.convertToYpub(extendedPubkey.pubkey);
+        expect(ypub, TestValue.xpubBip49ToYpub);
+      });
+
+      test('converts bip84 xpub to zpub', () {
+        final extendedPubkey = ExtendedPubkey.parse(TestValue.xpubBip84);
+        final zpub = Bip32Utils.convertToZpub(extendedPubkey.pubkey);
+        expect(zpub, TestValue.xpubBip84ToZpub);
+      });
+    });
   });
 }
