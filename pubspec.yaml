@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   bdk_flutter:
     git:
-      url: https://github.com/SatoshiPortal/bdk-flutter
-      ref: e5172bf80aad16c50a5d7315838accf512bcae95
+      url: https://github.com/StaxoLotl/bdk-flutter
+      ref: efactor/cargokit-update
   boltz:
     git:
       url: https://github.com/SatoshiPortal/boltz-dart
