@@ -13,7 +13,7 @@ dependencies:
   bdk_flutter:
     git:
       url: https://github.com/SatoshiPortal/bdk-flutter
-      ref: e5172bf80aad16c50a5d7315838accf512bcae95
+      ref: be3c7faf86e8cc734d749ce6cead9365eb7607ee
   boltz:
     git:
       url: https://github.com/SatoshiPortal/boltz-dart
