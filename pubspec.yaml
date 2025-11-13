@@ -17,7 +17,7 @@ dependencies:
   boltz:
     git:
       url: https://github.com/SatoshiPortal/boltz-dart
-      ref: 187237ae477b09964f8580e24d7155c4e70254e4
+      ref: new-swap-secrets
   lwk:
     git:
       url: https://github.com/SatoshiPortal/lwk-dart
